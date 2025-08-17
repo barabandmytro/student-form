@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Анкета студента коледжу</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.2em;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .form-container {
+            padding: 40px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+            padding: 25px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 4px solid #4facfe;
+        }
+        
+        .section-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title::before {
+            content: "●";
+            color: #4facfe;
+            font-size: 1.5em;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #555;
+            font-size: 1em;
+        }
+        
+        .required {
+            color: #e74c3c;
+        }
+        
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="date"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px 16px;
+            border: 2px solid #e1e8ed;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        input:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #4facfe;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+        }
+        
+        textarea {
+            resize: vertical;
+            height: 100px;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #4facfe;
+            margin-top: 2px;
+        }
+        
+        .submit-section {
+            text-align: center;
+            padding: 30px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            margin-top: 30px;
+        }
+        
+        .submit-btn {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.4);
+        }
+        
+        .submit-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .privacy-note {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            color: #856404;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-size: 0.9em;
+        }
+        
+        .success-message {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            text-align: center;
+            display: none;
+        }
+        
+        .error-message {
+            background: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            text-align: center;
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 20px;
+            }
+            
+            .header {
+                padding: 20px;
+            }
+            
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .section {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Анкета студента коледжу</h1>
+            <p>Будь ласка, заповніть всі поля для створення вашого профілю</p>
+        </div>
+        
+        <div class="form-container">
+            <div class="success-message" id="successMessage">
+                ✅ <strong>Дякуємо!</strong> Ваша анкета успішно відправлена. Куратор зв'яжеться з вами найближчим часом.
+            </div>
+            
+            <div class="error-message" id="errorMessage">
+                ❌ <strong>Помилка!</strong> Не вдалося відправити анкету. Будь ласка, спробуйте ще раз або зв'яжіться з куратором безпосередньо.
+            </div>
+            
+            <div class="privacy-note">
+                <strong>🔒 Конфіденційність:</strong> Вся інформація використовується виключно для навчальних цілей та зберігається згідно з вимогами захисту персональних даних.
+            </div>
+            
+            <!-- Netlify Forms вимагає data-netlify="true" атрибут -->
+            <form name="student-form" method="POST" data-netlify="true" data-netlify-recaptcha="true" id="studentForm">
+                <!-- Приховане поле для Netlify -->
+                <input type="hidden" name="form-name" value="student-form" />
+                
+                <!-- Особисті дані студента -->
+                <div class="section">
+                    <h2 class="section-title">Особисті дані студента</h2>
+                    
+                    <div class="form-group">
+                        <label for="lastName">Прізвище <span class="required">*</span></label>
+                        <input type="text" id="lastName" name="lastName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="firstName">Ім'я <span class="required">*</span></label>
+                        <input type="text" id="firstName" name="firstName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="middleName">По батькові</label>
+                        <input type="text" id="middleName" name="middleName">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="birthDate">Дата народження <span class="required">*</span></label>
+                        <input type="date" id="birthDate" name="birthDate" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Контактний телефон <span class="required">*</span></label>
+                        <input type="tel" id="phone" name="phone" placeholder="+380..." required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email <span class="required">*</span></label>
+                        <input type="email" id="email" name="email" placeholder="example@gmail.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="address">Адреса проживання <span class="required">*</span></label>
+                        <textarea id="address" name="address" placeholder="Місто, район, вулиця..." required></textarea>
+                    </div>
+                </div>
+                
+                <!-- Інформація про батьків/опікунів -->
+                <div class="section">
+                    <h2 class="section-title">Інформація про батьків/опікунів</h2>
+                    
+                    <div class="form-group">
+                        <label for="motherName">ПІБ матері/опікунки <span class="required">*</span></label>
+                        <input type="text" id="motherName" name="motherName" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="motherPhone">Телефон матері/опікунки <span class="required">*</span></label>
+                        <input type="tel" id="motherPhone" name="motherPhone" placeholder="+380..." required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="motherWork">Місце роботи матері/опікунки</label>
+                        <input type="text" id="motherWork" name="motherWork">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="fatherName">ПІБ батька/опікуна</label>
+                        <input type="text" id="fatherName" name="fatherName">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="fatherPhone">Телефон батька/опікуна</label>
+                        <input type="tel" id="fatherPhone" name="fatherPhone" placeholder="+380...">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="fatherWork">Місце роботи батька/опікуна</label>
+                        <input type="text" id="fatherWork" name="fatherWork">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="mainContact">Хто є основним контактом для зв'язку? <span class="required">*</span></label>
+                        <select id="mainContact" name="mainContact" required>
+                            <option value="">Оберіть...</option>
+                            <option value="mother">Мати/опікунка</option>
+                            <option value="father">Батько/опікун</option>
+                            <option value="student">Студент (якщо повнолітній)</option>
+                            <option value="other">Інший родич</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <!-- Додаткова інформація -->
+                <div class="section">
+                    <h2 class="section-title">Додаткова інформація</h2>
+                    
+                    <div class="form-group">
+                        <label for="health">Стан здоров'я (хронічні захворювання, алергії)</label>
+                        <textarea id="health" name="health" placeholder="Вкажіть важливу медичну інформацію або напишіть 'здоровий'"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="hobbies">Хобі та інтереси</label>
+                        <textarea id="hobbies" name="hobbies" placeholder="Розкажіть про свої захоплення, спорт, творчість..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="expectations">Очікування від навчання в коледжі</label>
+                        <textarea id="expectations" name="expectations" placeholder="Що ви очікуєте отримати від навчання? Які цілі маєте?"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="support">Чи потребуєте соціальної підтримки?</label>
+                        <select id="support" name="support">
+                            <option value="">Оберіть...</option>
+                            <option value="no">Ні</option>
+                            <option value="financial">Фінансової допомоги</option>
+                            <option value="housing">Допомоги з проживанням</option>
+                            <option value="educational">Освітньої підтримки</option>
+                            <option value="psychological">Психологічної підтримки</option>
+                            <option value="other">Іншої допомоги</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="additional">Додаткова інформація про себе</label>
+                        <textarea id="additional" name="additional" placeholder="Розкажіть що-небудь ще, що вважаєте важливим..."></textarea>
+                    </div>
+                </div>
+                
+                <div class="submit-section">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="consent" name="consent" required>
+                        <label for="consent">Я даю згоду на обробку моїх персональних даних згідно з вимогами законодавства <span class="required">*</span></label>
+                    </div>
+                    
+                    <!-- Netlify reCAPTCHA -->
+                    <div data-netlify-recaptcha="true" style="margin: 20px 0;"></div>
+                    
+                    <button type="submit" class="submit-btn" id="submitBtn">
+                        Відправити анкету
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        // Автоматичне форматування телефонних номерів
+        document.querySelectorAll('input[type="tel"]').forEach(input => {
+            input.addEventListener('input', function(e) {
+                let value = e.target.value.replace(/\D/g, '');
+                if (value.startsWith('380')) {
+                    value = '+' + value;
+                } else if (value.startsWith('0') && value.length <= 10) {
+                    value = '+38' + value;
+                }
+                e.target.value = value;
+            });
+        });
+
+        // Обробка відправки форми
+        document.getElementById('studentForm').addEventListener('submit', function(e) {
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Відправляється...';
+        });
+
+        // Перевірка на успішну відправку (Netlify автоматично перенаправляє)
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('success') === 'true') {
+            document.getElementById('successMessage').style.display = 'block';
+            document.getElementById('studentForm').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
